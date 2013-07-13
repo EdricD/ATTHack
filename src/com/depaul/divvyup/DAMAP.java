@@ -4,8 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 
@@ -29,6 +38,7 @@ public class DAMAP extends FragmentActivity {
      * Note that this may be null if the Google Play services APK is not available.
      */
     private GoogleMap mMap;
+    private ArrayList<Attraction> attractions;
    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +46,7 @@ public class DAMAP extends FragmentActivity {
         setContentView(R.layout.activity_damap);
         setUpMapIfNeeded();
         
-        InputStream inputStream = this.getResources().openRawResource(R.raw.divvy);
+        InputStream inputStream = this.getResources().openRawResource(R.raw.data_attractions);
 
         InputStreamReader inputreader = new InputStreamReader(inputStream);
         BufferedReader buffreader = new BufferedReader(inputreader);
@@ -52,6 +62,36 @@ public class DAMAP extends FragmentActivity {
            Log.d("DOES THIS WORK?", "NO");
        }
          Log.d("DOES THIS WORK?", text.toString());
+         
+         attractions = new ArrayList<Attraction>();
+         String[] dataLst = text.toString().split("\n");
+         
+         Geocoder g = new Geocoder(this, Locale.getDefault());
+         
+ 		for(int i = 0; i < dataLst.length; i++){
+ 			System.out.println(i);
+ 			String[] OneAttraction = dataLst[i].split(";");
+ 			attractions.add(new Attraction(OneAttraction[1],OneAttraction[2],OneAttraction[3],OneAttraction[4],OneAttraction[5],OneAttraction[0]));
+ 			
+ 			try {
+				List<Address> addrs = g.getFromLocationName(OneAttraction[3], 5);
+				if (addrs.size() > 0) {
+				Log.d("FUCK", "ONE");
+				Double currentLat = addrs.get(0).getLatitude();
+                Double currentLon = addrs.get(0).getLongitude();
+                mMap.addMarker(new MarkerOptions().position(new LatLng(currentLat, currentLon)).title(OneAttraction[1]));
+                Log.d("OH SHIT MAN ITS A LAT", ""+currentLat);
+                Log.d("OH SHIT MAN ITS A LON", ""+currentLon);
+				}
+			} catch (IOException e) {
+				Log.d("WHAT THE FUCK IS HAPPENING", e.toString());
+				// TODO Auto-generated catch block
+				Log.d("FUCKING", "BROKEN" + OneAttraction[3]);
+			}
+ 		
+ 		}
+ 	
+        
     }
 
     @Override
