@@ -73,6 +73,7 @@ int menu main 0x7f0a0001
 int menu testactivity 0x7f0a0002
 int raw data_attractions 0x7f040000
 int raw divvy 0x7f040001
+int raw stations 0x7f040002
 int string action_settings 0x7f070016
 int string app_name 0x7f070015
 int string auth_client_availability_notification_title 0x7f07000f

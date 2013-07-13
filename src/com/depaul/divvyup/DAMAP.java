@@ -18,8 +18,12 @@ import android.location.Geocoder;
 import android.os.Bundle;
 
 
+import com.google.android.gms.internal.d;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -44,7 +48,14 @@ public class DAMAP extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_damap);
+        
         setUpMapIfNeeded();
+        
+        CameraUpdate center=
+        		CameraUpdateFactory.newLatLng(new LatLng(41.883112, -87.621845));
+        		CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+        		mMap.moveCamera(center);
+        		mMap.animateCamera(zoom);
         
         InputStream inputStream = this.getResources().openRawResource(R.raw.data_attractions);
 
@@ -68,10 +79,10 @@ public class DAMAP extends FragmentActivity {
          
          Geocoder g = new Geocoder(this, Locale.getDefault());
          
- 		for(int i = 0; i < dataLst.length; i++){
+ 		for(int i = 0; i < 75; i++){
  			System.out.println(i);
  			String[] OneAttraction = dataLst[i].split(";");
- 			attractions.add(new Attraction(OneAttraction[1],OneAttraction[2],OneAttraction[3],OneAttraction[4],OneAttraction[5],OneAttraction[0]));
+ 			//attractions.add(new Attraction(OneAttraction[1],OneAttraction[2],OneAttraction[3],OneAttraction[4],OneAttraction[5],OneAttraction[0]));
  			
  			try {
 				List<Address> addrs = g.getFromLocationName(OneAttraction[3], 5);
@@ -79,7 +90,7 @@ public class DAMAP extends FragmentActivity {
 				Log.d("FUCK", "ONE");
 				Double currentLat = addrs.get(0).getLatitude();
                 Double currentLon = addrs.get(0).getLongitude();
-                mMap.addMarker(new MarkerOptions().position(new LatLng(currentLat, currentLon)).title(OneAttraction[1]));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(currentLat, currentLon)).title(OneAttraction[1]).snippet(OneAttraction[2]));
                 Log.d("OH SHIT MAN ITS A LAT", ""+currentLat);
                 Log.d("OH SHIT MAN ITS A LON", ""+currentLon);
 				}
@@ -90,7 +101,28 @@ public class DAMAP extends FragmentActivity {
 			}
  		
  		}
- 	
+ 		
+ 		
+ // TEM'S CODE
+ 		
+ 		
+        InputStream inputStreamBIKES= this.getResources().openRawResource(R.raw.stations);
+
+        InputStreamReader inputreaderBIKES = new InputStreamReader(inputStreamBIKES);
+        BufferedReader buffreaderBIKES= new BufferedReader(inputreaderBIKES);
+        String lineBIKES;
+        StringBuilder textBIKES = new StringBuilder();
+
+        try {
+	        while (( line = buffreaderBIKES.readLine()) != null) {
+	            String[] temp = line.split(", ");
+	            Log.d("Station: ", temp[0] + " " + temp[1] + " " + temp[2]);
+	            mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(temp[1]), Double.parseDouble(temp[2]))).title(temp[0]).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+	            
+	        }
+        } catch (IOException e) {
+            Log.d("DOES THIS WORK?", e.toString());
+        }
         
     }
 

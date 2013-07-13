@@ -210,6 +210,7 @@ containing a value of this type.
     public static final class raw {
         public static final int data_attractions=0x7f040000;
         public static final int divvy=0x7f040001;
+        public static final int stations=0x7f040002;
     }
     public static final class string {
         public static final int action_settings=0x7f070016;
