@@ -1,5 +1,10 @@
 package com.depaul.divvyup;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -11,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -23,12 +29,29 @@ public class DAMAP extends FragmentActivity {
      * Note that this may be null if the Google Play services APK is not available.
      */
     private GoogleMap mMap;
-
+   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_damap);
         setUpMapIfNeeded();
+        
+        InputStream inputStream = this.getResources().openRawResource(R.raw.divvy);
+
+        InputStreamReader inputreader = new InputStreamReader(inputStream);
+        BufferedReader buffreader = new BufferedReader(inputreader);
+        String line;
+        StringBuilder text = new StringBuilder();
+
+         try {
+           while (( line = buffreader.readLine()) != null) {
+               text.append(line);
+               text.append('\n');
+             }
+       } catch (IOException e) {
+           Log.d("DOES THIS WORK?", "NO");
+       }
+         Log.d("DOES THIS WORK?", text.toString());
     }
 
     @Override
@@ -42,7 +65,7 @@ public class DAMAP extends FragmentActivity {
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #mMap} is not null.
      * <p>
-     * If it isn't installed {@link SupportMapFragment} (and
+     * If it isn't installed {@link SupportMapFragment} (and 
      * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
      * install/update the Google Play services APK on their device.
      * <p>
