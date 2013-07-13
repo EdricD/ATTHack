@@ -1,6 +1,7 @@
 package com.depaul.divvyup;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +28,19 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent i = new Intent(getApplicationContext(),DAMAP.class);
                         startActivity(i);
+					}
+
+				});
+        
+        
+        findViewById(R.id.Button01).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://divvybikes.com/how-it-works"));
+						startActivity(browserIntent);
 					}
 
 				});

@@ -180,7 +180,8 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f020016;
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
         public static final int ic_launcher=0x7f020018;
-        public static final int logo=0x7f020019;
+        public static final int icon=0x7f020019;
+        public static final int logo=0x7f02001a;
     }
     public static final class id {
         public static final int Button01=0x7f060008;

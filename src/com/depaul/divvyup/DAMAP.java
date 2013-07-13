@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -43,10 +46,11 @@ public class DAMAP extends FragmentActivity {
      */
     private GoogleMap mMap;
     private ArrayList<Attraction> attractions;
-   
+    private static ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_damap);
         
         setUpMapIfNeeded();
@@ -56,7 +60,7 @@ public class DAMAP extends FragmentActivity {
         		CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
         		mMap.moveCamera(center);
         		mMap.animateCamera(zoom);
-        
+        pd = ProgressDialog.show(this, null, "Finding theaters near you..", false);
         InputStream inputStream = this.getResources().openRawResource(R.raw.data_attractions);
 
         InputStreamReader inputreader = new InputStreamReader(inputStream);
@@ -123,7 +127,7 @@ public class DAMAP extends FragmentActivity {
         } catch (IOException e) {
             Log.d("DOES THIS WORK?", e.toString());
         }
-        
+        pd.dismiss();
     }
 
     @Override

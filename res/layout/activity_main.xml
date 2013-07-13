@@ -28,7 +28,7 @@
         android:layout_marginBottom="81dp"
         android:background="@layout/silver_button"
         android:height="54dp"
-        android:text="Find My Current Location" />
+        android:text="Guide Me!" />
 
     <Button
         android:id="@+id/Button01"
@@ -39,6 +39,6 @@
         android:layout_marginBottom="18dp"
         android:background="@layout/silver_button"
         android:height="54dp"
-        android:text="Pricing / FAQ" />
+        android:text="What is Divvy?" />
 
 </RelativeLayout>
